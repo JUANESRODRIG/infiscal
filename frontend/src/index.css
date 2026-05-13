@@ -17,11 +17,17 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-border, currentcolor);
   }
 
   html {
     @apply overflow-hidden;
+  }
+
+  /* Light theme: text-white → foreground so titles are visible on white backgrounds.
+     Buttons/badges that need true white use text-white! (Tailwind !important) which overrides this. */
+  .text-white {
+    color: var(--color-foreground);
   }
 
   /* Override browser/password-manager autofill styling for dark theme */
@@ -46,11 +52,11 @@
 }
 
 :root {
-  font-family: var(--font-inter);
-  --foreground: oklch(0.985 0 0);
-  --background: oklch(0.145 0 0);
+  font-family: var(--font-poppins);
+  --foreground: oklch(0.145 0 0);
+  --background: oklch(1 0 0);
 
-  --toastify-color-dark: var(--color-mineshaft-700);
+  --toastify-color-dark: var(--color-mineshaft-200);
 }
 
 @theme {
@@ -58,82 +64,108 @@
 
   /* Fonts */
   --font-inter: "Inter", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
   --max-width-8xl: 88rem; /* 1408px */
 
-  /* Colors v2 */
-  --color-background: #19191c;
-  --color-foreground: #ebebeb;
+  /* Semantic tokens — light theme */
+  --color-background: #ffffff;
+  --color-foreground: #242424;
   --color-success: #2ecc71;
-  --color-info: #63b0bd;
-  --color-warning: #f1c40f;
+  --color-info: #13608b;
+  --color-warning: #cca23f;
   --color-danger: #e74c3c;
-  --color-org: #30b3ff;
-  --color-sub-org: #96ff59;
-  --color-project: #e0ed34;
-  --color-admin: #c0c0c8;
-  --color-neutral: #adaeb0;
-  --color-border: #2b2c30;
-  --color-label: #adaeb0;
-  --color-muted: #707174;
-  --color-popover: #141617;
-  --color-ring: #2d2f33;
-  --color-card: #16181a;
-  --color-accent: #7d7f80;
-  --color-container: #1a1c1e;
-  --color-container-hover: #1f2123;
+  --color-org: #13608b;
+  --color-sub-org: #2a9d8f;
+  --color-project: #cca23f;
+  --color-admin: #848484;
+  --color-neutral: #8c8c89;
+  --color-border: #e4e5e9;
+  --color-label: #848484;
+  --color-muted: #8c8c89;
+  --color-popover: #ffffff;
+  --color-ring: #13608b;
+  --color-card: #f8f9fa;
+  --color-accent: #848484;
+  --color-container: #f0f2f5;
+  --color-container-hover: #e8eaed;
 
-  /* Sidebar */
-  --color-sidebar: #19191c;
-  --color-sidebar-foreground: #ebebeb;
-  --color-sidebar-border: #2b2c30;
-  --color-sidebar-accent: #1e1f22;
-  --color-sidebar-accent-foreground: #ebebeb;
-  --color-sidebar-ring: #2d2f33;
+  /* Sidebar — light */
+  --color-sidebar: #f5f7fa;
+  --color-sidebar-foreground: #242424;
+  --color-sidebar-border: #e4e5e9;
+  --color-sidebar-accent: #eef0f4;
+  --color-sidebar-accent-foreground: #242424;
+  --color-sidebar-ring: #13608b;
 
-  /* secret management product colors */
-  --color-folder: #a4873e;
-  --color-secret: #7d7f80;
-  --color-dynamic-secret: #a6702b;
+  /* Secret management product colors */
+  --color-folder: #cca23f;
+  --color-secret: #8c8c89;
+  --color-dynamic-secret: #13608b;
   --color-import: #457d91;
   --color-secret-rotation: #4c6081;
   --color-override: #694c81;
 
-  /*legacy color schema */
-  --color-org-v1: #30b3ff;
-  --color-namespace-v1: #96ff59;
+  /* Legacy */
+  --color-org-v1: #13608b;
+  --color-namespace-v1: #2a9d8f;
 
-  /* Primary */
-  --color-primary-50: #fffff5;
-  --color-primary-100: #fcfce8;
-  --color-primary-200: #f8faca;
-  --color-primary-300: #f4f7ab;
-  --color-primary-400: #ecf26d;
-  --color-primary-500: #e0ed34;
-  --color-primary-600: #c2d62b;
-  --color-primary-700: #97b31d;
-  --color-primary-800: #708f13;
-  --color-primary-900: #4d6b0b;
-  --color-primary: #e0ed34;
+  /* Primary — Deep Teal #13608b */
+  --color-primary-50: #ecf5fb;
+  --color-primary-100: #cde4f5;
+  --color-primary-200: #9cc9eb;
+  --color-primary-300: #5fa8d8;
+  --color-primary-400: #2b88bf;
+  --color-primary-500: #13608b;
+  --color-primary-600: #105275;
+  --color-primary-700: #0d4260;
+  --color-primary-800: #09324a;
+  --color-primary-900: #062133;
+  --color-primary: #13608b;
+
+  /* Secondary — Gold/Ochre #cca23f */
+  --color-secondary-50: #fdf8ee;
+  --color-secondary-100: #f7ebcc;
+  --color-secondary-200: #eed699;
+  --color-secondary-300: #e4bc5e;
+  --color-secondary-400: #d8aa46;
+  --color-secondary-500: #cca23f;
+  --color-secondary-600: #b08a35;
+  --color-secondary-700: #8c6e2a;
+  --color-secondary-800: #6a521f;
+  --color-secondary-900: #483814;
+  --color-secondary: #cca23f;
+
+  /* Override Tailwind default gray scale — inverted for light theme */
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #5a5b5e;
+  --color-gray-300: #848484;
+  --color-gray-400: #8c8c89;
+  --color-gray-500: #adaeb0;
+  --color-gray-600: #d0d1d3;
+  --color-gray-700: #e5e6e8;
+  --color-gray-800: #f0f1f3;
+  --color-gray-900: #f5f6f7;
 
   /* Grey + Misc */
-  --color-grey: #0d1117;
+  --color-grey: #e8eaed;
   --color-githubblack: #020409;
-  --color-blue1: #3498db;
-  --color-blue2: #130f40;
-  --color-orange: #f39c12;
+  --color-blue1: #13608b;
+  --color-blue2: #0d4260;
+  --color-orange: #cca23f;
 
-  /* Mineshaft */
-  --color-mineshaft-50: #f5f5f5;
-  --color-mineshaft-100: #ebebeb;
-  --color-mineshaft-200: #ccccce;
-  --color-mineshaft-300: #adaeb0;
-  --color-mineshaft-400: #707174;
-  --color-mineshaft-500: #323439;
-  --color-mineshaft-600: #2d2f33;
-  --color-mineshaft-700: #26272b;
-  --color-mineshaft-800: #1e1f22;
-  --color-mineshaft-900: #19191c;
-  --color-mineshaft: #323439;
+  /* Mineshaft — inverted for light theme (50=dark text → 900=near-white surface) */
+  --color-mineshaft-50: #242424;
+  --color-mineshaft-100: #3d3e41;
+  --color-mineshaft-200: #5a5b5e;
+  --color-mineshaft-300: #848484;
+  --color-mineshaft-400: #8c8c89;
+  --color-mineshaft-500: #adaeb0;
+  --color-mineshaft-600: #d0d1d3;
+  --color-mineshaft-700: #e5e6e8;
+  --color-mineshaft-800: #f3f4f6;
+  --color-mineshaft-900: #f8f9fa;
+  --color-mineshaft: #848484;
 
   /* Chicago */
   --color-chicago-50: #f7f7f7;
@@ -148,18 +180,18 @@
   --color-chicago-900: #2d2d2e;
   --color-chicago: #5b5c5e;
 
-  /* Bunker */
-  --color-bunker-50: #f3f4f4;
-  --color-bunker-100: #e8e8e9;
-  --color-bunker-200: #c5c6c8;
-  --color-bunker-300: #a2a4a6;
-  --color-bunker-400: #5d5f64;
-  --color-bunker-500: #171b21;
-  --color-bunker-600: #15181e;
-  --color-bunker-700: #111419;
-  --color-bunker-800: #0e1014;
-  --color-bunker-900: #0b0d10;
-  --color-bunker: #171b21;
+  /* Bunker — inverted for light theme (50=dark → 900=lightest surface) */
+  --color-bunker-50: #1a1f28;
+  --color-bunker-100: #2a3142;
+  --color-bunker-200: #3d4a5e;
+  --color-bunker-300: #5a6a80;
+  --color-bunker-400: #848ea0;
+  --color-bunker-500: #b0b8c8;
+  --color-bunker-600: #d5dae3;
+  --color-bunker-700: #eaeff3;
+  --color-bunker-800: #f5f7fa;
+  --color-bunker-900: #fafcfd;
+  --color-bunker: #5a6a80;
 
   /* Yellow */
   --color-yellow-50: #fefcf3;
@@ -200,17 +232,17 @@
   --color-green-900: #176437;
   --color-green: #2ecc71;
 
-  /* Blue */
-  --color-blue-50: #f2f8ff;
-  --color-blue-100: #e6f1ff;
-  --color-blue-200: #bfdbff;
-  --color-blue-300: #99c5ff;
-  --color-blue-400: #4d9aff;
-  --color-blue-500: #006eff;
-  --color-blue-600: #0063e6;
-  --color-blue-700: #0053bf;
-  --color-blue-800: #004299;
-  --color-blue-900: #00367d;
+  /* Blue (aliased to teal primary) */
+  --color-blue-50: #ecf5fb;
+  --color-blue-100: #cde4f5;
+  --color-blue-200: #9cc9eb;
+  --color-blue-300: #5fa8d8;
+  --color-blue-400: #2b88bf;
+  --color-blue-500: #13608b;
+  --color-blue-600: #105275;
+  --color-blue-700: #0d4260;
+  --color-blue-800: #09324a;
+  --color-blue-900: #062133;
 }
 
 @utility min-table-row {

@@ -4,7 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Essential Commands
 
-- `make reviewable-api` / `make reviewable-ui` — lint:fix + type:check (run before PRs)
+### Local Development
+
+- `make up-dev` — start full dev stack (PostgreSQL, Redis, backend, frontend, Nginx) via Docker Compose
+- `make up-dev-sso` — dev stack with SSO profile (Keycloak)
+- `make up-dev-ldap` — dev stack with LDAP profile
+- `make up-dev-metrics` — dev stack with metrics/observability profile
+- `make down` — stop and remove dev containers
+
+### Pre-PR Checks
+
+- `make reviewable` — lint:fix + type:check for both backend and frontend (run before all PRs)
+- `make reviewable-api` / `make reviewable-ui` — run only backend or frontend checks
+
+### Database
+
 - `cd backend && npm run migration:new` — create new DB migration
 - `cd backend && npm run generate:schema` — regenerate Zod types from DB after migration changes
 
@@ -65,6 +79,17 @@ No IoC container. Every service is a factory function with explicit dependencies
 
 React Query + Axios with query key factories per domain. Each API domain in `frontend/src/hooks/api/` has `queries.tsx`, `mutations.tsx`, and `types.tsx` — see `frontend/CLAUDE.md` for conventions.
 
+## Upgrade Impact Tool
+
+`upgrade-impact/` is an AI-powered tool that generates structured upgrade notes for Infisical releases. It compares two git tags, collects evidence (migration diffs, changed routes, dependency bumps), and uses an OpenAI agentic loop to produce a YAML impact report.
+
+- `make generate-upgrade-impact TAG=v0.159.23` — generate impact data for a specific release tag
+- `make generate-upgrade-impact-dry-run TAG=v0.159.23` — dry run without writing output
+- `make validate-upgrade-impact` — type-check + test + validate the tool itself
+- `cd upgrade-impact && npm run generate:local` — run locally against the working tree
+
+Output lands in `upgrade-impact/data/`. Requires `OPENAI_API_KEY` in the environment.
+
 ## Keeping CLAUDE.md Up to Date
 
 When making significant changes to the codebase (new services, architectural shifts, new patterns, major refactors), update the relevant CLAUDE.md file(s) with high-level findings. This includes this root file for cross-cutting concerns, `backend/CLAUDE.md` for backend changes, and `frontend/CLAUDE.md` for frontend changes. The goal is to keep these files accurate as living documentation so future sessions start with correct context.
@@ -73,4 +98,4 @@ When making significant changes to the codebase (new services, architectural shi
 
 1. **Backend**: Create service module, migration, wire DI, add routes — see checklist in `backend/CLAUDE.md`
 2. **Frontend**: Add API hooks in `src/hooks/api/<domain>/`, create page/view, wire route — see `frontend/CLAUDE.md` for routing and component patterns
-3. Run `make reviewable-api` and `make reviewable-ui` before submitting
+3. Run `make reviewable` before submitting
